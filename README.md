@@ -12,8 +12,8 @@ Nosso grupo usou as bibliotecas NumPy e Pandas para fazer analises baseadas ness
 
 1. Talvez seja melhor uma nova hipótese 
 2. Como se dá a distribuição de consumo de energia por continente?
-3. Existe alguma correlação entre o PIB de um país e o seu consumo de combustível fossil?
-4. Existe alguma correlação entre a demanda de energia e a produção de energia renovável?
+3. Existe alguma correlação entre a demanda de energia e a produção de energia renovável?
+4. Existe alguma correlação entre o PIB de um país e o seu consumo de combustível fossil?
 
 ## Como rodar o código? 
 

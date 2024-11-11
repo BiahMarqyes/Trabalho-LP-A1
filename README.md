@@ -7,7 +7,7 @@ Grupo:
 - Raphaella Roma
 
 ## Introdução
-O dataset **World Energy Consumption** é mantido pelo [Our World in Data](https://ourworldindata.org/) e está disponível no site [kaggle](link https://www.kaggle.com/datasets/pralabhpoudel/world-energy-consumption). Ele trás dados sobre o consumo, a demanda e a produção de diferentes fontes de energias em diferentes países entre os anos de 1900 a 2022. 
+O dataset **World Energy Consumption** é mantido pelo [Our World in Data](https://ourworldindata.org/) e está disponível no site [kaggle](https://www.kaggle.com/datasets/pralabhpoudel/world-energy-consumption). Ele trás dados sobre o consumo, a demanda e a produção de diferentes fontes de energias em diferentes países entre os anos de 1900 a 2022. 
 Nosso grupo usou as bibliotecas NumPy e Pandas para fazer analises baseadas nesses dados afim de investigar as seguintes hipóteses:
 
 1. Talvez seja melhor uma nova hipótese 

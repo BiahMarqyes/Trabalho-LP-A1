@@ -1,3 +1,7 @@
+"""
+Esse módulo contém funções que limpam o dataset e o preparam para cada uma das hipóteses 
+"""
+
 import pandas as pd
 
 df = pd.read_csv("data/World Energy Consumption.csv")
@@ -13,6 +17,18 @@ columns = df.columns
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 3
 def demand_and_production(df):
+    """
+    Elimina entradas na coluna 'country' que não são países usando uma lista de exclusão pré-definida;
+    Seleciona as colunas necessárias para a análise, ou seja, país, ano, pib, demanda e produção;
+    Exclui linhas que contêm valores nulos nas colunas de demanda ou produção;
+    Filtra os dados para o período de 2000 a 2021, que é onde a maioria dos países têm dados completos.
+
+    Args:
+        df (DataFrame): dataset base do trabalho
+
+    Returns:
+        df_clean (DataFrame): contém apénas os dados necessários para a análise
+    """    
     # A coluna country contém países, continentes e blocos econômicos, como só queremos analisar os países vamos eliminar os que não são
     # Criamos uma lista com todos os nomes que aparecem na coluna country
     unique_countries = df['country'].unique().tolist() 
@@ -53,11 +69,8 @@ def demand_and_production(df):
     
     # Praticamente todos países contém dados entre 2000 e 2021, então a análise será feita nesse período 
     df_clean = no_nulls_rows[(no_nulls_rows['year'] >= 2000) & (no_nulls_rows['year'] <= 2021)]
-
-    print(df_clean.head())
     
     return df_clean
 
-demand_production_frame = demand_and_production(df)
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 4

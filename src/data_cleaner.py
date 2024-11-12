@@ -1,7 +1,6 @@
 """
 Esse módulo contém funções que limpam o dataset e o preparam para cada uma das hipóteses 
 """
-
 import pandas as pd
 
 df = pd.read_csv("data/World Energy Consumption.csv")

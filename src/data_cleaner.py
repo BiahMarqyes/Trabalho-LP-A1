@@ -1,5 +1,5 @@
 """
-Esse módulo contém funções que limpam o dataset e o preparam para cada uma das hipóteses 
+Esse módulo contém funções que limpam o dataset e o preparam para cada uma das hipóteses.
 """
 import pandas as pd
 

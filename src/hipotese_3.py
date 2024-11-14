@@ -41,13 +41,13 @@ def plot_comparison_demand_production(df_grouped):
     # Criar o gráfico de barras empilhadas
     plt.bar(
         df_pivot.index, df_pivot['renewables_electricity'], 
-        label='Produção de Energia Renovável', color=(20/255, 117/255, 112/255)
+        label='Produção de Energia Renovável', color=(8/255, 27/255, 70/255)
         )
     
     plt.bar(
         df_pivot.index, df_pivot['electricity_demand'], 
         bottom=df_pivot['renewables_electricity'], label='Demanda de Energia', 
-        color=(151/255, 201/255, 181/255)
+        color=(49/255, 135/255, 196/255)
         )
 
     # Intervalos do eixo X
@@ -95,12 +95,12 @@ def plot_variation_demand_production(df_grouped):
     sns.lineplot(
         x='year', y='variation_demand', data=df_grouped, 
         label='Taxa de Variação - Demanda', marker='o', 
-        color=(151/255, 201/255, 181/255)
+        color=(49/255, 135/255, 196/255)
         )
     sns.lineplot(
         x='year', y='variation_production', data=df_grouped, 
         label='Taxa de Variação - Produção', marker='o', 
-        color=(20/255, 117/255, 112/255)
+        color=(8/255, 27/255, 70/255)
         )
 
     # Intervalos do eixo X
@@ -127,7 +127,7 @@ plot_variation_demand_production(df_grouped)
 
 # Plota os gráficos de linhas que comparam a taxa de variação anual da demanda 
 # e a taxa de variação anual da produção de cada um dos três países mais ricos 
-def plot_variation_in_the_richest_countries(df_grouped):
+def plot_variation_in_the_richest_countries(df):
     """
     Faz a média do pib anual de cada país;
     Encontra as três maiores médias;
@@ -159,11 +159,11 @@ def plot_variation_in_the_richest_countries(df_grouped):
 
         sns.lineplot(
             x='year', y='variation_demand', data=df_rich, label='Taxa de Variação - Demanda', 
-            marker='o', ax=axes[i], legend=False, color=(151/255, 201/255, 181/255)
+            marker='o', ax=axes[i], legend=False, color=(49/255, 135/255, 196/255)
             )
         sns.lineplot(
             x='year', y='variation_production', data=df_rich, label='Taxa de Variação - Produção', 
-            marker='o', ax=axes[i], legend=False, color=(20/255, 117/255, 112/255)
+            marker='o', ax=axes[i], legend=False, color=(8/255, 27/255, 70/255)
             )
         axes[i].set_title(f"{rich}", fontsize=16, y=0.9)
         axes[i].set_xlabel('Ano', fontsize=12, labelpad=6)

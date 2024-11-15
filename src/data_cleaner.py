@@ -2,11 +2,11 @@
 Esse módulo contém funções que limpam o dataset e o preparam para cada uma das hipóteses.
 """
 import pandas as pd
+import numpy as np
 
-df = pd.read_csv("data/World Energy Consumption.csv")
+df = pd.read_csv("../data/World Energy Consumption.csv")
 
 columns = df.columns
-
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 1
 
@@ -73,3 +73,32 @@ def demand_and_production(df):
 
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 4
+def GDP_and_fossil_energy_consumption(df):
+    """
+    Gera um df agrupado por país com todas colunas necessárias para a análise 
+
+    Parameters
+    ----------
+    df : DataFrame
+    Returns
+    -------
+    new_df : DataFrame
+
+    """
+    # coal, fossil gas, oil, GDP, country
+    df_fossil_energy = df[['country','year','gdp','coal_cons_per_capita','fossil_energy_per_capita','gas_energy_per_capita','oil_energy_per_capita']]
+    
+    # Remoção das linhas que não contem dados relativos à verificação
+    no_nulls_rows = df_fossil_energy.dropna(subset=['coal_cons_per_capita','fossil_energy_per_capita','gas_energy_per_capita','oil_energy_per_capita'], how='all')
+    
+    # array de países ou conjuntos agrupados onde o PIB não consta em nenhum dos anos verificados
+    null_gdp_countries = df.groupby('country').filter(lambda x: x['gdp'].isna().all())['country'].unique()
+    
+    # DataFrame sem ps países e agrupados cujo PIB não consta
+    new_df = no_nulls_rows[~no_nulls_rows['country'].isin(null_gdp_countries)]
+    
+    return new_df
+
+
+
+GDP_and_fossil_energy_frame = GDP_and_fossil_energy_consumption(df)

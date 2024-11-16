@@ -79,9 +79,9 @@ def countries_with_na_counts(df, column, top_n=10):
     return result_df
 
 
-na_countries = countries_with_most_na(df, "fossil_energy_per_capita",6)
+na_countries = countries_with_most_na(df, "fossil_energy_per_capita",10)
 
-#print(countries_with_na_counts(df, "fossil_energy_per_capita", 6))
+print(countries_with_na_counts(df, "fossil_energy_per_capita", 10))
 
 for country in na_countries:
     df_auxiliary = df_auxiliary.drop(country)

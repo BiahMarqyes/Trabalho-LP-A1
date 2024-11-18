@@ -16,4 +16,12 @@ Nosso grupo usou as bibliotecas NumPy e Pandas para fazer analises baseadas ness
 4. Existe alguma correlação entre o PIB de um país e o seu consumo de combustível fossil?
 
 ## Como rodar o código? 
+A estrutura do trabalho se dá por:
+
+* `data`: contém o arquivo .cvs com os dados brutos.
+* `plots`: contém as visualizações finais produzidas.
+* `src`: contém os scripts Python, incluindo funções para limpeza de dados e plotagem de gráficos.
+* `tests`: contém os testes unitários.
+
+
 

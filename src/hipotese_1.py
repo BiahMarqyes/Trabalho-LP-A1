@@ -1,3 +1,7 @@
+"""
+Módulo responsável por gerar gráficos sobre a relação entre consumo de energia, população, demanda e importações de eletricidade
+"""
+
 import numpy as np
 import data_cleaner
 import seaborn as sns

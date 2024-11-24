@@ -73,36 +73,30 @@ def renewable_energy_consumption_by_continent(df: pd.DataFrame) -> pd.DataFrame:
     pd.DataFrame
         O novo DataFrame com os continentes e dados agrupados.
     """
-    cols_numericas = ["year", "population", "biofuel_consumption", "hydro_consumption",
-        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption"]
-
-    # Confirma que as colunas são numéricas
-    df[cols_numericas] = df[cols_numericas].apply(pd.to_numeric, errors="coerce")
 
     # Cria uma nova coluna no DataFrame com o continente de cada país
     df["continent"] = df["country"].apply(continent_identifier)
 
     # Filtra as colunas de interesse
     df_continents = df[["continent", "year", "population", "biofuel_consumption", "hydro_consumption", 
-        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption"]]
+        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"]].copy()
 
     # Filtra as linhas que não possuem dados em nenhuma dessas colunas
     filtered_df = df_continents.dropna(subset=["biofuel_consumption", "hydro_consumption", "other_renewable_consumption", 
-        "renewables_consumption", "solar_consumption", "wind_consumption"], how='all').copy()
+        "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"], how='all')
     
     # Trocam os valores nulos por 0
-    filtered_df['biofuel_consumption'].fillna(0)
-    filtered_df['hydro_consumption'].fillna(0)
-    filtered_df['other_renewable_consumption'].fillna(0)
-    filtered_df['renewables_consumption'].fillna(0)
-    filtered_df['solar_consumption'].fillna(0)
-    filtered_df['wind_consumption'].fillna(0)
+    cols_para_substituir = ['biofuel_consumption', 'hydro_consumption', 'other_renewable_consumption', 'renewables_consumption', 'solar_consumption', 'wind_consumption']
+    filtered_df.loc[:, cols_para_substituir] = filtered_df[cols_para_substituir].fillna(0)
+
+    # Cria a coluna de consumo total de energia renovável
+    filtered_df["total_renewable_consumption"] = filtered_df[cols_para_substituir].sum(axis=1)
 
     # Retira população nula
     filtered_df = filtered_df[filtered_df["population"].notna()]
 
     # Coloca o intervalo de tempo desejado
-    new_df = filtered_df[filtered_df["year"].between(2000, 2022)]
+    new_df = filtered_df[filtered_df["year"].between(2001, 2021)]
 
     return new_df
 

@@ -45,14 +45,14 @@ class TestCleaning(unittest.TestCase):
 
     def test_intervalo_anos(self):
         df = renewable_energy_consumption_by_continent(self.df)
-        # Confirma se os anos estão entre 2000 e 2022
-        self.assertTrue(all(df["year"].between(2000, 2022)))
+        # Confirma se os anos estão entre 2001 e 2021
+        self.assertTrue(all(df["year"].between(2001, 2021)))
 
     def test_colunas(self):
         df = renewable_energy_consumption_by_continent(self.df)
         # Confirma se o DataFrame resultante contém apenas as colunas esperadas
         self.assertListEqual(list(df.columns), ["continent", "year", "population", "biofuel_consumption", "hydro_consumption", 
-        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption"])
+        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita", "total_renewable_consumption"])
 
     # Testes da Hipótese 3
     def test_non_country_removal(self):

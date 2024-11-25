@@ -78,8 +78,8 @@ plot_comparison_demand_production(df_grouped)
 # e a taxa de variação anual da produção
 def plot_variation_demand_production(df_grouped):
     """
-    Plota e estiliza o gráfico de linhas que compara a taxa de variação anual da demanda 
-    de energia global e a taxa de variação anual da produção de energia renovável global
+    Plota e estiliza o gráfico de linhas que compara a proporcão da produção 
+    de energia renovável com a demanda de energia global
 
     Args:
         df_grouped (DataFrame): dataset agrupado por ano
@@ -122,7 +122,52 @@ def plot_variation_demand_production(df_grouped):
     plt.savefig('plots/plots_hipotese_3/grafico_2.png', format='png')
 
 
-plot_variation_demand_production(df_grouped)   
+plot_variation_demand_production(df_grouped)  
+
+
+# Plota o gráfico de linhas que compara a proporcão renovável/demanda por ano
+def plot_ratio_production_demand(df_grouped):
+    """
+    Plota e estiliza o gráfico de linhas que compara a taxa de variação anual da demanda 
+    de energia global e a taxa de variação anual da produção de energia renovável global
+
+    Args:
+        df_grouped (DataFrame): dataset agrupado por ano
+    """
+    # Cálculo da proporção renovável/demanda
+    df_grouped['renewables_ratio'] = df_grouped['renewables_electricity'] / df_grouped['electricity_demand']
+
+    # Tamanho do gráfico
+    plt.figure(figsize=(10.5, 5)) 
+
+    # Plotar gráfico
+    plt.plot(
+        df_grouped['year'], df_grouped['renewables_ratio'], 
+        label='Proporção', color='#DC7200'
+        )
+
+    # Intervalos do eixo X
+    intervalos_x = list(range(2000, 2022, 3))
+    plt.xticks(intervalos_x, [str(x) for x in intervalos_x])
+
+    # Intervalos do eixo Y
+    intervalos_y = np.linspace(0, 0.5, 6)
+    plt.yticks(intervalos_y, [f"{y * 100:.0f}%" for y in intervalos_y])
+
+    # Personalizar o gráfico
+    plt.title(
+        'Proporção entre Produção de Energia Renovável\ne Demanda de Energia por Ano', 
+        fontsize=17, pad=0)
+    plt.xlabel('Ano', fontsize=12)
+    plt.ylabel('Proporção\nRenováveis\nDemanda', rotation=0, labelpad=35, ha='center')
+    # Remover o contorno do gráfico
+    sns.despine()
+    
+    # Salvar gráfico
+    plt.savefig('plots/plots_hipotese_3/grafico_3.png', format = 'png')
+
+
+plot_ratio_production_demand(df_grouped)
 
 
 # Plota os gráficos de linhas que comparam a taxa de variação anual da demanda 
@@ -200,10 +245,75 @@ def plot_variation_in_the_richest_countries(df):
     sns.despine()
 
     # Salvar gráfico
-    plt.savefig('plots/plots_hipotese_3/grafico_3.png', format='png')
+    plt.savefig('plots/plots_hipotese_3/grafico_4.png', format='png')
      
 
 plot_variation_in_the_richest_countries(df)
+
+
+# Plota o gráfico de linhas que compara a proporcão renovável/demanda por ano 
+# dos 3 países mais ricos 
+def plot_top_3_ratio_production_demand(df):
+    """
+    Faz a média do pib anual de cada país;
+    Encontra as três maiores médias;
+    Plota e estiliza um gráfico de linhas que compara a proporcão da produção de 
+    energia renovável com a demanda de energia global dos três países mais 
+    ricos de acordo com a média do pib
+
+    Args:
+        df (DataFrame): dataset que vem da função demand_and_production em data_cleaner.py
+    """
+    # Os países mais ricos serão aqueles com maior média do pib
+    gdp_mean = df.groupby('country')['gdp'].mean()
+
+    # Tamanho do gráfico
+    plt.figure(figsize=(10.5, 5)) 
+
+    # Cores das linhas 
+    colors = ['#003089', '#CB1212', '#068127']
+
+    # Pega os três países mais ricos e suas informações e gera seus gráficos
+    for i in range(3):
+        rich = gdp_mean.idxmax()
+        print(rich)
+        df_rich = df[df['country'] == rich]
+
+        # Cálculo da proporção renovável/demanda
+        df_rich['renewables_ratio'] = df_rich['renewables_electricity'] / df_rich['electricity_demand']
+
+        # Plota 
+        sns.lineplot(
+            x=df_rich['year'], y=df_rich['renewables_ratio'], 
+            label=f"{rich}", color=colors[i]
+            )
+    
+        # Elimina o país i mais rico da série
+        gdp_mean = gdp_mean.drop(rich)
+
+    # Intervalos do eixo X
+    intervalos_x = list(range(2000, 2022, 3))
+    plt.xticks(intervalos_x, [str(x) for x in intervalos_x])
+
+    # Intervalos do eixo Y
+    intervalos_y = np.linspace(0, 0.5, 6)
+    plt.yticks(intervalos_y, [f"{y * 100:.0f}%" for y in intervalos_y])
+
+    # Personalizar o gráfico
+    plt.title(
+        'Proporção entre Produção de Energia Renovável\ne Demanda de Energia por Ano', 
+        fontsize=17, pad=0)
+    plt.xlabel('Ano', fontsize=12)
+    plt.ylabel('Proporção\nRenováveis\nDemanda', rotation=0, labelpad=35, ha='center')
+    plt.legend(borderaxespad=3)
+    # Remover o contorno do gráfico
+    sns.despine()
+    
+    # Salvar gráfico
+    plt.savefig('plots/plots_hipotese_3/grafico_5.png', format = 'png')
+
+
+plot_top_3_ratio_production_demand(df)
 
 
 # Cálculos para verificar correlações 

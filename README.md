@@ -22,6 +22,9 @@ A estrutura do trabalho se dá por:
 * `plots`: contém as visualizações finais produzidas.
 * `src`: contém os scripts Python, incluindo funções para limpeza de dados e plotagem de gráficos.
 * `tests`: contém os testes unitários.
+* `requirements`: Lista as dependências necessárias e suas versões para execução da análise.
+
+
 
 
 

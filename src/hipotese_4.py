@@ -19,9 +19,6 @@ columns = df.columns
 
 # Lista de paises com muitos valores nulos
 def countries_with_most_na(df, column, top_n=10):
-    
-  
-# Tabela para visualizar quantidade de valores nulos
     """
     Retorna uma lista dos países com mais valores NA em uma coluna específica.
 
@@ -47,6 +44,8 @@ def countries_with_most_na(df, column, top_n=10):
     top_countries_with_na = na_counts.sort_values(ascending=False).head(top_n).index.tolist()
     
     return top_countries_with_na
+
+# Tabela para visualizar quantidade de valores nulos
 def countries_with_na_counts(df, column, top_n=10):
     """
     Retorna os países com mais valores NA em uma coluna específica, junto com a quantidade de valores NA.
@@ -151,7 +150,7 @@ def plot_country_energy_gdp(df, country, ax, column, colors):
     
     
 # Função para plotar os 9 países com maior consumo de energia fóssil
-def plot_top_9_countries(df):
+def plot_top_9_countries(df, mode = "show"):
     """
     Plota um grid 3x3 dos 9 países com maior consumo médio de energia fóssil per capita.
 
@@ -199,7 +198,8 @@ def plot_top_9_countries(df):
     # Ajustar espaçamento entre os subplots
     fig.tight_layout(pad=3.0, h_pad=3.0, w_pad=3.0)
     
-    plt.savefig('../plots/plots_hipotese_4/top_9_countries.png', dpi=300, format='png')
+    if mode == "save":
+        plt.savefig('../plots/plots_hipotese_4/top_9_countries.png', bbox_inches='tight', dpi=300, format='png')
     plt.show()
     plt.close()
 
@@ -210,7 +210,7 @@ def plot_top_9_countries(df):
 
 
 # Função para plotar os 9 países com menor consumo de energia fóssil
-def plot_lower_9_countries(df):
+def plot_lower_9_countries(df, mode = "show"):
     """
     Plota um grid 3x3 dos 9 países com menor consumo médio de energia fóssil per capita.
 
@@ -256,19 +256,19 @@ def plot_lower_9_countries(df):
     # Ajustar espaçamento entre os subplots
     fig.tight_layout(pad=3.0, h_pad=3.0, w_pad=3.0)
     
-
-    plt.savefig('../plots/plots_hipotese_4/lower_9_countries.png', dpi=300, format='png')
+    if mode == "save":
+        plt.savefig('../plots/plots_hipotese_4/lower_9_countries.png', bbox_inches='tight', dpi=300, format='png')
     plt.show()
     plt.close()
 
     
     
-plot_top_9_countries(df_auxiliary)
-plot_lower_9_countries(df_auxiliary)
+plot_top_9_countries(df_auxiliary, "save")
+plot_lower_9_countries(df_auxiliary, "save")
 
 
 
-def energy_gdp_correlation(df):
+def energy_gdp_correlation(df, mode = "show"):
     """
     Calcula e plota as contagens de países classificados por níveis de correlação (alta, moderada e baixa) entre PIB e consumo de diferentes tipos de energia fóssil.
 
@@ -337,13 +337,13 @@ def energy_gdp_correlation(df):
         if container.datavalues[0] == correlation_counts_df['Alta Correlação'][0]:
             ax.bar_label(container, label_type='edge', color= '#33415C', fontsize=12, padding=3)
             
-
-    plt.savefig('../plots/plots_hipotese_4/correlations_counts.png', dpi=300, format='png')
+    if mode == "save":
+        plt.savefig('../plots/plots_hipotese_4/correlations_counts.png', bbox_inches='tight', dpi=300, format='png')
     plt.show()
     plt.close()
 
 
-energy_gdp_correlation(df)
+energy_gdp_correlation(df, "save")
 
 
 

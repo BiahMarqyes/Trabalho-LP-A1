@@ -34,41 +34,5 @@ class TestGDPAndFossilEnergyAnalysis(unittest.TestCase):
         })
         pd.testing.assert_frame_equal(result, expected)
 
-    # @check_figures_equal()
-    # def test_plot_country_energy_gdp(self, fig_test, fig_ref):
-    #     ax_test = fig_test.subplots()
-    #     plot_country_energy_gdp(self.df.set_index(['country', 'year']), 'A', ax_test,
-    #                             'fossil_energy_per_capita', self.colors)
-
-    #     ax_ref = fig_ref.subplots()
-    #     plot_country_energy_gdp(self.df.set_index(['country', 'year']), 'A', ax_ref,
-    #                             'fossil_energy_per_capita', self.colors)
-
-    # @check_figures_equal()
-    # def test_plot_top_9_countries(self, fig_test, fig_ref):
-    #     ax_test = fig_test.subplots()
-    #     plot_top_9_countries(self.df, ax=ax_test)
-
-    #     ax_ref = fig_ref.subplots()
-    #     plot_top_9_countries(self.df, ax=ax_ref)
-
-    # @check_figures_equal()
-    # def test_plot_lower_9_countries(self, fig_test, fig_ref):
-    #     ax_test = fig_test.subplots()
-    #     plot_lower_9_countries(self.df, ax=ax_test)
-
-    #     ax_ref = fig_ref.subplots()
-    #     plot_lower_9_countries(self.df, ax=ax_ref)
-
-    # @check_figures_equal()
-    # def test_energy_gdp_correlation(self, fig_test, fig_ref):
-    #     ax_test = fig_test.subplots()
-    #     energy_gdp_correlation(self.df, ax=ax_test)
-
-    #     ax_ref = fig_ref.subplots()
-    #     energy_gdp_correlation(self.df, ax=ax_ref)
-
-
-
 if __name__ == "__main__":
     unittest.main()

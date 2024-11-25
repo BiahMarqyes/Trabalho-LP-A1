@@ -4,7 +4,7 @@ Esse módulo contém funções que limpam o dataset e o preparam para cada uma d
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("./data/World Energy Consumption.csv")
+df = pd.read_csv("../data/World Energy Consumption.csv")
 
 columns = df.columns
 

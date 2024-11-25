@@ -86,7 +86,7 @@ plot_renewable_energy_consumption_continental(df)
 
 def plot_mapa_calor_crescimento(df: pd.DataFrame) -> None:
     """
-    Cria um mapa de calor para visualizar o crescimento percentual do consumo sustentável 
+    Cria um mapa de calor para visualizar o crescimento percentual do consumo de energia renovável 
     por continente ao longo dos anos.
 
     Parameters
@@ -117,7 +117,7 @@ def plot_mapa_calor_crescimento(df: pd.DataFrame) -> None:
     )
 
     # Títulos e rótulos
-    plt.title('Mapa de Calor do Crescimento do Consumo Sustentável (2001-2021)', fontsize=17, pad=20)
+    plt.title('Mapa de Calor do Crescimento do Consumo de Energia Renovável (2001-2021)', fontsize=17, pad=20)
     plt.xlabel('')
     plt.ylabel('Continente', fontsize=12)
 

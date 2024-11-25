@@ -15,7 +15,41 @@ class TestCleaning(unittest.TestCase):
 
 
     # Testes da Hipótese 1
-
+    def test_hipotese_1_column_selection_consumption_and_population(self):
+        df_clean = consumption_and_population(self.df)
+        # Confirma se o DataFrame resultante contém apenas as colunas esperadas
+        expected_columns = ["country", "year", "population", "primary_energy_consumption"]
+        self.assertListEqual(list(df_clean.columns), expected_columns)
+        
+    def test_hipotese_1_column_selection_electricity_balance_and_import(self):
+            df_clean = consumption_and_population(self.df)
+            # Confirma se o DataFrame resultante contém apenas as colunas esperadas
+            expected_columns = ["year","electricity_balance","net_elec_imports"]
+            self.assertListEqual(list(df_clean.columns), expected_columns)
+        
+    def test_hipotese_1_column_selection_electricity_demand_and_import(self):
+            df_clean = consumption_and_population(self.df)
+            # Confirma se o DataFrame resultante contém apenas as colunas esperadas
+            expected_columns = ["year","electricity_demand","net_elec_imports"]
+            self.assertListEqual(list(df_clean.columns), expected_columns)
+        
+    def test_hipotese_1_null_value_removal(self):
+            df_clean = consumption_and_population(self.df)
+            # Confirma se não há valores nulos em 'population' e 'primary_energy_consumption'
+            self.assertFalse(df_clean[["population", "primary_energy_consumption"]].isnull().any().any())
+        
+            df_clean = electricity_balance_and_import(self.df)
+            # Confirma se não há valores nulos em 'electricity_balance' e 'net_elec_imports'
+            self.assertFalse(df_clean[["electricity_balance", "net_elec_imports"]].isnull().any().any())
+        
+            df_clean = electricity_demand_and_import(self.df)
+            # Confirma se não há valores nulos em 'electricity_demand' e 'net_elec_imports'
+            self.assertFalse(df_clean[["electricity_demand", "net_elec_imports"]].isnull().any().any())
+        
+    def test_hipotese_1_year_filtering(self):
+            df_clean = electricity_demand_and_import(self.df)
+            # Confirma se os anos estão entre 2000 e 2020
+            self.assertTrue((df_clean['year'] >= 2000).all() and (df_clean['year'] <= 2020).all())
 
     # Testes da Hipótese 2
     

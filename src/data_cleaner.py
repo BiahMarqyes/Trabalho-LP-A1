@@ -9,7 +9,59 @@ df = pd.read_csv("../data/World Energy Consumption.csv")
 columns = df.columns
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 1
+def consumption_and_population(df):
+    # Colunas necessárias para a análise
+    df_consumption_and_population = df[["country", "year", "population", "primary_energy_consumption"]]
+    
+    # Eliminação das linhas que não contém o consumo e as populações
+    no_nulls_rows = df_consumption_and_population.dropna(subset=["population", "primary_energy_consumption"], how="any")
+    
+    # Todos os dados de no_nulls_rows são necessários para a análise
+    df_clean = no_nulls_rows
+    
+    return df_clean
 
+consumption_population = consumption_and_population(df)
+
+def electricity_balance_and_import(df):
+    # Criação do balanço de energia elétrica baseada na coluna da demanda de eletricidade e na coluna de geração de eletricidade informada em df.
+    df_electricity_balance = pd.DataFrame()
+    df_electricity_balance["electricity_balance"] = df["electricity_generation"] - df["electricity_demand"]
+    
+    # Colunas necessárias para a análise
+    df_electricity_balance_and_import = pd.DataFrame()
+
+    df_electricity_balance_and_import["year"] = df[["year"]]
+    df_electricity_balance_and_import["electricity_balance"] = df_electricity_balance["electricity_balance"]
+    df_electricity_balance_and_import["net_elec_imports"] = df["net_elec_imports"]
+    
+    # Eliminação das linhas que não contém o balanço de energia elétrica e as importações
+    no_nulls_rows = df_electricity_balance_and_import.dropna(subset=["electricity_balance", "net_elec_imports"], how="any")
+    
+    # Todos os dados de no_nulls_rows são necessários para a análise
+    df_clean = no_nulls_rows
+    
+    return df_clean
+
+balance_import = electricity_balance_and_import(df)
+
+def electricity_demand_and_import(df):
+    # Colunas necessárias para a análise
+    df_electricity_demand_and_import = pd.DataFrame()
+
+    df_electricity_demand_and_import["year"] = df[["year"]]
+    df_electricity_demand_and_import["electricity_demand"] = df["electricity_demand"]
+    df_electricity_demand_and_import["net_elec_imports"] = df["net_elec_imports"]
+    
+    # Eliminação das linhas que não contém a demanda de eletricidade e as importações
+    no_nulls_rows = df_electricity_demand_and_import.dropna(subset=["electricity_demand", "net_elec_imports"], how="any")
+    
+    # Os dados de demanda disponíveis a partir de 2000, então os dados das importações foram filtrados para considerar o mesmo período.
+    df_clean = no_nulls_rows[(no_nulls_rows["year"] >= 2000) & (no_nulls_rows["year"] <= 2020)]
+    
+    return df_clean
+
+demand_import = electricity_demand_and_import(df)
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 2
 
@@ -190,3 +242,10 @@ def GDP_and_fossil_energy_consumption(df):
 
 
 GDP_and_fossil_energy_frame = GDP_and_fossil_energy_consumption(df)
+
+
+
+
+
+
+

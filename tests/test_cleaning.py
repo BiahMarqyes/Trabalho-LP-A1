@@ -6,7 +6,7 @@ import numpy as np
 
 # Adiciona o diretório src ao sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-from data_cleaner import demand_and_production, GDP_and_fossil_energy_consumption # Importem suas funções aqui!!
+from data_cleaner import demand_and_production, GDP_and_fossil_energy_consumption, continent_identifier, renewable_energy_consumption_by_continent # Importem suas funções aqui!!
 
 
 class TestCleaning(unittest.TestCase):
@@ -18,7 +18,41 @@ class TestCleaning(unittest.TestCase):
 
 
     # Testes da Hipótese 2
+    
+    def test_continent_identifier(self):    
+        try:
+            # Países válidos
+            self.assertEqual(continent_identifier("Brazil"), "South America")
+            self.assertEqual(continent_identifier("Australia"), "Oceania")
+            self.assertEqual(continent_identifier("India"), "Asia")
+            # "País" inválido
+            self.assertIsNone(continent_identifier("G20 (Ember)"))
+        except AssertionError as e:
+            print(f"Erro no teste: {e}")
+            raise
 
+    def test_remocao_dados_consumo_invalidos(self):
+        df = renewable_energy_consumption_by_continent(self.df)
+        # Confirma se não tem valores nulos nos dados de consumo de energia
+        self.assertEqual(df["biofuel_consumption"].isna().sum(), 0)
+        self.assertEqual(df["solar_consumption"].isna().sum(), 0)
+        self.assertEqual(df["wind_consumption"].isna().sum(), 0)
+
+    def test_remocao_sem_populacao(self):
+        df = renewable_energy_consumption_by_continent(self.df)
+        # Confirma se os países sem população foram removidos
+        self.assertTrue(df["population"].notna().all())
+
+    def test_intervalo_anos(self):
+        df = renewable_energy_consumption_by_continent(self.df)
+        # Confirma se os anos estão entre 2001 e 2021
+        self.assertTrue(all(df["year"].between(2001, 2021)))
+
+    def test_colunas(self):
+        df = renewable_energy_consumption_by_continent(self.df)
+        # Confirma se o DataFrame resultante contém apenas as colunas esperadas
+        self.assertListEqual(list(df.columns), ["continent", "year", "population", "biofuel_consumption", "hydro_consumption", 
+        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita", "total_renewable_consumption"])
 
     # Testes da Hipótese 3
     def test_non_country_removal(self):

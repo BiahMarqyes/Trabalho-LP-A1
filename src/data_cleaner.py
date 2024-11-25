@@ -4,7 +4,7 @@ Esse módulo contém funções que limpam o dataset e o preparam para cada uma d
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("../data/World Energy Consumption.csv")
+df = pd.read_csv("./data/World Energy Consumption.csv")
 
 columns = df.columns
 
@@ -13,6 +13,94 @@ columns = df.columns
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 2
 
+# Dicionário com os países de cada continente (feito com ChatGPT)
+countries_by_continent_map = {
+    "Antarctica": ["Antarctica"],
+    "Africa": ["Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cameroon", "Cape Verde",
+        "Central African Republic", "Chad", "Comoros", "Congo", "Cote d'Ivoire", "Democratic Republic of Congo", 
+        "Djibouti", "Egypt", "Equatorial Guinea", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea", 
+        "Guinea-Bissau", "Kenya", "Lesotho", "Liberia", "Libya", "Madagascar", "Malawi", "Mali", "Mauritania", "Mauritius", 
+        "Morocco", "Mozambique", "Namibia", "Niger", "Nigeria", "Rwanda", "Sao Tome and Principe", "Senegal", "Seychelles", 
+        "Sierra Leone", "Somalia", "South Africa", "South Sudan", "Sudan", "Tanzania", "Togo", "Tunisia", "Uganda", "Zambia", "Zimbabwe"],
+    "Asia": ["Afghanistan", "Armenia", "Azerbaijan", "Bahrain", "Bangladesh", "Bhutan", "Brunei", "Cambodia", "China", "Cyprus",
+        "Georgia", "India", "Indonesia", "Iran", "Iraq", "Israel", "Japan", "Jordan", "Kazakhstan", "Kuwait", "Kyrgyzstan", "Laos", "Lebanon",
+        "Malaysia", "Maldives", "Mongolia", "Myanmar", "Nepal", "North Korea", "Oman", "Pakistan", "Palestine", "Philippines", "Qatar",
+        "Saudi Arabia", "Singapore", "South Korea", "Sri Lanka", "Syria", "Taiwan", "Tajikistan", "Thailand", "Timor-Leste", "Turkey", 
+        "Turkmenistan", "United Arab Emirates", "Uzbekistan", "Vietnam", "Yemen"],
+    "Europe": ["Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus",
+        "Czechia", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia",
+        "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", 
+        "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Ukraine", "United Kingdom"],
+    "North America": ["Canada", "Greenland", "Mexico", "United States"],
+    "Central America": ["Antigua and Barbuda", "Bahamas", "Barbados", "Belize", "Costa Rica", "Cuba", "Dominica", "Dominican Republic", "El Salvador", "Grenada", 
+        "Guatemala", "Haiti", "Honduras", "Jamaica", "Nicaragua", "Panama", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Trinidad and Tobago"],
+    "South America": ["Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Ecuador", "Guyana", "Paraguay", "Peru", "Suriname", "Uruguay", "Venezuela"],
+    "Oceania": ["Australia", "Fiji", "Kiribati", "Marshall Islands", "Micronesia", "Nauru", "New Zealand", "Palau", 
+        "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu"]
+}
+
+def continent_identifier(country: str) -> str:
+    """
+    Identifica o continente de um país.
+
+    Parameters
+    ----------
+    country : str
+        Nome do país.
+
+    Returns
+    -------
+    str
+        Nome do continente ao qual o país pertence.
+    """
+    for continent, countries in countries_by_continent_map.items():
+        if country in countries:
+            return continent
+    return None
+
+def renewable_energy_consumption_by_continent(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Limpa o DataFrame original para conter apenas dados de consumo de energia renovável e população válidos,
+    adicionando uma coluna de continentes para agrupar os dados dos países.
+
+    Parameters
+    ----------
+    df: pd.DataFrame
+        O DataFrame original.
+
+    Returns
+    -------
+    pd.DataFrame
+        O novo DataFrame com os continentes e dados agrupados.
+    """
+
+    # Cria uma nova coluna no DataFrame com o continente de cada país
+    df["continent"] = df["country"].apply(continent_identifier)
+
+    # Filtra as colunas de interesse
+    df_continents = df[["continent", "year", "population", "biofuel_consumption", "hydro_consumption", 
+        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"]].copy()
+
+    # Filtra as linhas que não possuem dados em nenhuma dessas colunas
+    filtered_df = df_continents.dropna(subset=["biofuel_consumption", "hydro_consumption", "other_renewable_consumption", 
+        "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"], how='all')
+    
+    # Trocam os valores nulos por 0
+    cols_para_substituir = ['biofuel_consumption', 'hydro_consumption', 'other_renewable_consumption', 'renewables_consumption', 'solar_consumption', 'wind_consumption']
+    filtered_df.loc[:, cols_para_substituir] = filtered_df[cols_para_substituir].fillna(0)
+
+    # Cria a coluna de consumo total de energia renovável
+    filtered_df["total_renewable_consumption"] = filtered_df[cols_para_substituir].sum(axis=1)
+
+    # Retira população nula
+    filtered_df = filtered_df[filtered_df["population"].notna()]
+
+    # Coloca o intervalo de tempo desejado
+    new_df = filtered_df[filtered_df["year"].between(2001, 2021)]
+
+    return new_df
+
+renewable_energy_consumption_continental = renewable_energy_consumption_by_continent(df)
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 3
 def demand_and_production(df):
@@ -57,7 +145,7 @@ def demand_and_production(df):
     'United States Territories (Shift)', 'Upper-middle-income countries', 'Wake Island (EIA)', 
     'Wake Island (Shift)', 'West Germany (EIA)', 'Western Africa (EI)', 'World', 'Yugoslavia'
      ]
-    # Agora tiramso todas as linhas do df que comtém qualquer um desses não países
+    # Agora tiramos todas as linhas do df que comtém qualquer um desses não países
     df = df[~df['country'].isin(non_countries)]
     
     # Colunas necessárias para a análise 

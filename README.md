@@ -10,7 +10,7 @@ Grupo:
 O dataset **World Energy Consumption** é mantido pelo [Our World in Data](https://ourworldindata.org/) e está disponível no site [kaggle](https://www.kaggle.com/datasets/pralabhpoudel/world-energy-consumption). Ele trás dados sobre o consumo, a demanda e a produção de diferentes fontes de energias em diferentes países entre os anos de 1900 a 2022. 
 Nosso grupo usou as bibliotecas NumPy e Pandas para fazer analises baseadas nesses dados afim de investigar as seguintes hipóteses:
 
-1. Talvez seja melhor uma nova hipótese 
+1. Aumento da população implica em maior demanda de energia e uma possível dependência da importação?
 2. Como se dá a distribuição de consumo de energia por continente?
 3. A producão de energia por fontes renováveis acompanha a demanda de energia globalmente?
 4. Existe alguma correlação entre o PIB de um país e o seu consumo de combustível fossil?

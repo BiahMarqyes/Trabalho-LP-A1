@@ -1,10 +1,10 @@
 # Linguagens de Programação A1
 
 Grupo:
-- Beatriz Marques
-- Luisa Costa
-- Maria Clara de Souza
-- Raphaella Roma
+- Beatriz Marques - Responsável pela hipótese 3
+- Luisa Costa - Responsável pela hipótese 1
+- Maria Clara de Souza - Responsável pela hipótese 2
+- Raphaella Roma - Responsável pela hipótese 4
 
 ## Introdução
 O dataset **World Energy Consumption** é mantido pelo [Our World in Data](https://ourworldindata.org/) e está disponível no site [kaggle](https://www.kaggle.com/datasets/pralabhpoudel/world-energy-consumption). Ele trás dados sobre o consumo, a demanda e a produção de diferentes fontes de energias em diferentes países entre os anos de 1900 a 2022.

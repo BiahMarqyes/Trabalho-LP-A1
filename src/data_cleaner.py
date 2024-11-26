@@ -109,7 +109,6 @@ def continent_identifier(country: str) -> str:
         if country in countries:
             return continent
     return None
-
 def renewable_energy_consumption_by_continent(df: pd.DataFrame) -> pd.DataFrame:
     """
     Limpa o DataFrame original para conter apenas dados de consumo de energia renovável e população válidos,
@@ -129,28 +128,40 @@ def renewable_energy_consumption_by_continent(df: pd.DataFrame) -> pd.DataFrame:
     # Cria uma nova coluna no DataFrame com o continente de cada país
     df["continent"] = df["country"].apply(continent_identifier)
 
-    # Filtra as colunas de interesse
-    df_continents = df[["continent", "year", "population", "biofuel_consumption", "hydro_consumption", 
-        "other_renewable_consumption", "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"]].copy()
+    # Filtra as colunas de interesse e cria uma cópia explícita
+    df_continents = df[[
+        "continent", "year", "population", "biofuel_consumption", "hydro_consumption",
+        "other_renewable_consumption", "renewables_consumption", "solar_consumption",
+        "wind_consumption", "energy_per_capita"
+    ]].copy()
 
-    # Filtra as linhas que não possuem dados em nenhuma dessas colunas
-    filtered_df = df_continents.dropna(subset=["biofuel_consumption", "hydro_consumption", "other_renewable_consumption", 
-        "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"], how='all')
-    
-    # Trocam os valores nulos por 0
-    cols_para_substituir = ['biofuel_consumption', 'hydro_consumption', 'other_renewable_consumption', 'renewables_consumption', 'solar_consumption', 'wind_consumption']
-    filtered_df.loc[:, cols_para_substituir] = filtered_df[cols_para_substituir].fillna(0)
+    # Filtra as linhas que não possuem dados em nenhuma das colunas de interesse e cria uma cópia
+    filtered_df = df_continents.dropna(
+        subset=[
+            "biofuel_consumption", "hydro_consumption", "other_renewable_consumption",
+            "renewables_consumption", "solar_consumption", "wind_consumption", "energy_per_capita"
+        ],
+        how='all'
+    ).copy()
+
+    # Troca os valores nulos por 0 nas colunas especificadas
+    cols_para_substituir = [
+        'biofuel_consumption', 'hydro_consumption', 'other_renewable_consumption',
+        'renewables_consumption', 'solar_consumption', 'wind_consumption'
+    ]
+    filtered_df[cols_para_substituir] = filtered_df[cols_para_substituir].fillna(0)
 
     # Cria a coluna de consumo total de energia renovável
     filtered_df["total_renewable_consumption"] = filtered_df[cols_para_substituir].sum(axis=1)
 
-    # Retira população nula
+    # Remove linhas onde a população é nula
     filtered_df = filtered_df[filtered_df["population"].notna()]
 
-    # Coloca o intervalo de tempo desejado
+    # Filtra o intervalo de tempo desejado
     new_df = filtered_df[filtered_df["year"].between(2001, 2021)]
 
     return new_df
+
 
 renewable_energy_consumption_continental = renewable_energy_consumption_by_continent(df)
 
@@ -211,6 +222,7 @@ def demand_and_production(df):
     
     return df_clean
 
+demand_and_production = demand_and_production(df)
 
 # LIMPEZA DE DADOS PARA A HIPÓTESE 4
 def GDP_and_fossil_energy_consumption(df):

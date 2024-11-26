@@ -3,14 +3,13 @@ Esse módulo contém funções que plotam os gráficos da hipótese 3.
 A primeira função plota um gráfico de barras, 
 a segunda e a terceira plotam um gráfico de linhas.
 """
-from data_cleaner import demand_and_production
+import data_cleaner
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-df = pd.read_csv("data/World Energy Consumption.csv")
-df = demand_and_production(df)
+df = pd.DataFrame(data_cleaner.demand_and_production)
 
 # Agrupando por países
 df_grouped = df.groupby('year').sum().reset_index()
@@ -68,7 +67,7 @@ def plot_comparison_demand_production(df_grouped):
     #plt.show()
 
     # Salvar gráfico
-    plt.savefig('plots/plots_hipotese_3/grafico_1.png', format = 'png')
+    plt.savefig('../plots/plots_hipotese_3/grafico_1.png', format = 'png')
 
 
 plot_comparison_demand_production(df_grouped)
@@ -119,7 +118,7 @@ def plot_variation_demand_production(df_grouped):
     sns.despine()
     
     # Salvar gráfico
-    plt.savefig('plots/plots_hipotese_3/grafico_2.png', format='png')
+    plt.savefig('../plots/plots_hipotese_3/grafico_2.png', format='png')
 
 
 plot_variation_demand_production(df_grouped)  
@@ -164,7 +163,7 @@ def plot_ratio_production_demand(df_grouped):
     sns.despine()
     
     # Salvar gráfico
-    plt.savefig('plots/plots_hipotese_3/grafico_3.png', format = 'png')
+    plt.savefig('../plots/plots_hipotese_3/grafico_3.png', format = 'png')
 
 
 plot_ratio_production_demand(df_grouped)
@@ -196,7 +195,7 @@ def plot_variation_in_the_richest_countries(df):
     for i in range(3):
         rich = gdp_mean.idxmax()
         print(rich)
-        df_rich = df[df['country'] == rich]
+        df_rich = df[df['country'] == rich].copy()
         # Calcular a taxa de variação da demanda por ano usando o método pct_change()
         df_rich['variation_demand'] = df_rich['electricity_demand'].pct_change() * 100
         # # Calcular a taxa de variação da produção por ano usando o método pct_change()
@@ -245,7 +244,7 @@ def plot_variation_in_the_richest_countries(df):
     sns.despine()
 
     # Salvar gráfico
-    plt.savefig('plots/plots_hipotese_3/grafico_4.png', format='png')
+    plt.savefig('../plots/plots_hipotese_3/grafico_4.png', format='png')
      
 
 plot_variation_in_the_richest_countries(df)
@@ -277,7 +276,7 @@ def plot_top_3_ratio_production_demand(df):
     for i in range(3):
         rich = gdp_mean.idxmax()
         print(rich)
-        df_rich = df[df['country'] == rich]
+        df_rich = df[df['country'] == rich].copy()
 
         # Cálculo da proporção renovável/demanda
         df_rich['renewables_ratio'] = df_rich['renewables_electricity'] / df_rich['electricity_demand']
@@ -310,7 +309,7 @@ def plot_top_3_ratio_production_demand(df):
     sns.despine()
     
     # Salvar gráfico
-    plt.savefig('plots/plots_hipotese_3/grafico_5.png', format = 'png')
+    plt.savefig('../plots/plots_hipotese_3/grafico_5.png', format = 'png')
 
 
 plot_top_3_ratio_production_demand(df)
@@ -320,7 +319,3 @@ plot_top_3_ratio_production_demand(df)
 # Cálculo da correlação entre as duas variáveis (geração e produção global)  
 correlation = np.corrcoef(df_grouped['electricity_demand'], df_grouped['renewables_electricity'])[0, 1]  
 print(correlation)
-
-
-
-

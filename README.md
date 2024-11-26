@@ -24,7 +24,10 @@ A estrutura do trabalho se dá por:
 * `tests`: contém os testes unitários.
 * `requirements`: Lista as dependências necessárias e suas versões para execução da análise.
 
-
+O trabalho deverá ser executado desta forma:
+  Para cada hipótese, será necessário executar o seguinte comando de dentro da pasta SRC :  python hipotese_x.py
+  Os arquivos serão então gerados na pasta ../plots/plots_hipotese_x
+  
 
 
 

@@ -68,6 +68,9 @@ def plot_comparison_demand_production(df_grouped):
 
     # Salvar gráfico
     plt.savefig('../plots/plots_hipotese_3/grafico_1.png', format = 'png')
+    print('\n')
+    print('-'*50)
+    print('\n    Gráfico_1.png salvo')
 
 
 plot_comparison_demand_production(df_grouped)
@@ -119,6 +122,7 @@ def plot_variation_demand_production(df_grouped):
     
     # Salvar gráfico
     plt.savefig('../plots/plots_hipotese_3/grafico_2.png', format='png')
+    print('    Gráfico_2.png salvo')
 
 
 plot_variation_demand_production(df_grouped)  
@@ -164,6 +168,7 @@ def plot_ratio_production_demand(df_grouped):
     
     # Salvar gráfico
     plt.savefig('../plots/plots_hipotese_3/grafico_3.png', format = 'png')
+    print('    Gráfico_3.png salvo')
 
 
 plot_ratio_production_demand(df_grouped)
@@ -194,7 +199,7 @@ def plot_variation_in_the_richest_countries(df):
     # Pega os três países mais ricos e suas informações e gera seus gráficos
     for i in range(3):
         rich = gdp_mean.idxmax()
-        print(rich)
+        #print(rich)
         df_rich = df[df['country'] == rich].copy()
         # Calcular a taxa de variação da demanda por ano usando o método pct_change()
         df_rich['variation_demand'] = df_rich['electricity_demand'].pct_change() * 100
@@ -245,7 +250,7 @@ def plot_variation_in_the_richest_countries(df):
 
     # Salvar gráfico
     plt.savefig('../plots/plots_hipotese_3/grafico_4.png', format='png')
-     
+    print('    Gráfico_4.png salvo')
 
 plot_variation_in_the_richest_countries(df)
 
@@ -275,7 +280,7 @@ def plot_top_3_ratio_production_demand(df):
     # Pega os três países mais ricos e suas informações e gera seus gráficos
     for i in range(3):
         rich = gdp_mean.idxmax()
-        print(rich)
+        #print(rich)
         df_rich = df[df['country'] == rich].copy()
 
         # Cálculo da proporção renovável/demanda
@@ -310,12 +315,16 @@ def plot_top_3_ratio_production_demand(df):
     
     # Salvar gráfico
     plt.savefig('../plots/plots_hipotese_3/grafico_5.png', format = 'png')
+    print('    Gráfico_5.png salvo')
+    
 
 
 plot_top_3_ratio_production_demand(df)
 
+print('\n   Fim da hipótese 3\n')
+print('-'*50,'\n')
 
 # Cálculos para verificar correlações 
 # Cálculo da correlação entre as duas variáveis (geração e produção global)  
 correlation = np.corrcoef(df_grouped['electricity_demand'], df_grouped['renewables_electricity'])[0, 1]  
-print(correlation)
+#print(correlation)

@@ -80,7 +80,7 @@ def plot_renewable_energy_consumption_continental(df: pd.DataFrame) -> None:
     ax.get_legend().remove()
 
     # Salva o gráfico
-    plt.savefig('plots/plots_hipotese_2/grafico_1.png')
+    plt.savefig('../plots/plots_hipotese_2/grafico_1.png')
 
 plot_renewable_energy_consumption_continental(df)
 
@@ -121,7 +121,7 @@ def plot_mapa_calor_crescimento(df: pd.DataFrame) -> None:
     plt.xlabel('')
     plt.ylabel('Continente', fontsize=12)
 
-    plt.savefig('plots/plots_hipotese_2/grafico_2.png')
+    plt.savefig('../plots/plots_hipotese_2/grafico_2.png')
 
 plot_mapa_calor_crescimento(df)
 
@@ -179,7 +179,7 @@ def plot_renewable_energy_consumption_per_capita(df: pd.DataFrame) -> None:
     sns.despine()
     ax.get_legend().remove()
 
-    plt.savefig('plots/plots_hipotese_2/grafico_3.png')
+    plt.savefig('../plots/plots_hipotese_2/grafico_3.png')
 
 plot_renewable_energy_consumption_per_capita(df)
 
@@ -224,6 +224,6 @@ def plot_renewable_energy_2021(df: pd.DataFrame) -> None:
     sns.despine()
 
     # Exibe o gráfico
-    plt.savefig('plots/plots_hipotese_2/grafico_4.png')
+    plt.savefig('../plots/plots_hipotese_2/grafico_4.png')
 
 plot_renewable_energy_2021(df)

@@ -182,7 +182,7 @@ def demand_and_production(df):
     # A coluna country contém países, continentes e blocos econômicos, como só queremos analisar os países vamos eliminar os que não são
     # Criamos uma lista com todos os nomes que aparecem na coluna country
     unique_countries = df['country'].unique().tolist() 
-    print(unique_countries)
+    #print(unique_countries)
     # Usando o chatgpt para avaliar quais nomes não são de países, geramos a lista non_countries
     non_countries = [
     'ASEAN (Ember)', 'Africa', 'Africa (EI)', 'Africa (Ember)', 'Africa (Shift)', 
